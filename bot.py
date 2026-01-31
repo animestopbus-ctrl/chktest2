@@ -1,3 +1,4 @@
+# bot.py
 # LastPerson07XRexbots V2
 # Don't Remove Credit
 # Telegram Channel @RexBots_Official
@@ -72,6 +73,8 @@ class Bot(Client):
         print(LOGO)
         
         await super().start()
+        # Initialize DB indexes asynchronously
+        await db.async_init()
         me = await self.get_me()
 
         # 🔹 Log Start to Channel (Rate limited)
