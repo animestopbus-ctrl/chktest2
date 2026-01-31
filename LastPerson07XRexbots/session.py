@@ -1,3 +1,4 @@
+# session.py
 # LastPerson07XRexbots V2
 # Don't Remove Credit
 # Telegram Channel @RexBots_Official
@@ -99,7 +100,7 @@ async def logout(client: Client, message: Message):
 # ---------------------------------------------------
 # HANDLE LOGIN STATES (Text Messages During Login)
 # ---------------------------------------------------
-@Client.on_message(filters.private & filters.text & ~filters.command, group=1)
+@Client.on_message(filters.private & filters.text, group=1)
 async def login_handler(client: Client, message: Message):
     user_id = message.from_user.id
     text = message.text.strip()
@@ -112,7 +113,7 @@ async def login_handler(client: Client, message: Message):
     progress = PROGRESS_STEPS[step]
     
     # Cancel Option
-    if text.lower() == "❌ cancel":
+    if text == "❌ Cancel":
         del LOGIN_STATE[user_id]
         await message.reply("<b>❌ Login Cancelled.</b>\n\n<i>Use /login to start again.\nDEVs: 1. @DmOwner 2. @akaza7902</i>", reply_markup=remove_keyboard, parse_mode=enums.ParseMode.HTML)
         return
