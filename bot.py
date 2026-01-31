@@ -4,11 +4,11 @@
 # DEVs: 1. @DmOwner 2. @akaza7902
 
 import asyncio
+from asyncio import Semaphore  # Fixed import for rate limiting high traffic
 import datetime
 import sys
 import os
 from datetime import timezone, timedelta
-import asyncio.Semaphore  # For rate limiting high traffic
 
 from pyrogram import Client, filters, enums, __version__ as pyrogram_version
 from pyrogram.types import Message
@@ -33,11 +33,14 @@ IST = timezone(timedelta(hours=5, minutes=30))
 # ==============================================================================
 LOGO = r"""
 
+
   ██████╗  ██╗  ██╗  █████╗  ███╗   ██╗ ██████╗   █████╗  ██╗      
   ██╔══██╗ ██║  ██║ ██╔══██╗ ████╗  ██║ ██╔══██╗ ██╔══██╗ ██║      
   ██║  ██║ ███████║ ███████║ ██╔██╗ ██║ ██████╔╝ ███████║ ██║      
   ██║  ██║ ██╔══██║ ██╔══██║ ██║╚██╗██║ ██╔═══╝  ██╔══██║ ██║      
   ██████╔╝ ██║  ██║ ██║  ██║ ██║ ╚████║ ██║      ██║  ██║ ███████
+
+
 
     𝙱𝙾𝚃 𝚆𝙾𝚁𝙺𝙸𝙽𝙶 𝙿𝚁𝙾𝙿𝙴𝚁𝙻𝚈.... V2 (High Traffic Ready)
     DEVs: 1. @DmOwner 2. @akaza7902
@@ -62,7 +65,7 @@ class Bot(Client):
             in_memory=False,                    # Keep session on disk
             # ==================================================================
         )
-        self.rate_limiter = asyncio.Semaphore(10)  # Limit to 10 concurrent ops for flood prevention
+        self.rate_limiter = Semaphore(10)  # Limit to 10 concurrent ops for flood prevention
 
     async def start(self):
         # 🔹 Print Banner to Terminal
