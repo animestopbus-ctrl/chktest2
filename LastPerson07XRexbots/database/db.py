@@ -1,3 +1,4 @@
+# db.py
 # LastPerson07XRexbots V2
 # Don't Remove Credit
 # Telegram Channel @RexBots_Official
@@ -17,10 +18,13 @@ class Database:
         self._client = motor.motor_asyncio.AsyncIOMotorClient(uri)
         self.db = self._client[database_name]
         self.col = self.db.users
-        # Index for high traffic queries
-        self.col.create_index([("id", 1)], unique=True)
         # Cache for frequent checks (TTL 60s)
         self.cache = TTLCache(maxsize=10000, ttl=60)
+
+    async def async_init(self):
+        # Index for high traffic queries (async creation with sparse=True to avoid conflicts)
+        await self.col.create_index([("id", 1)], unique=True, sparse=True)
+        logger.info("Database indexes created successfully")
 
     def new_user(self, id, name):
         return dict(
